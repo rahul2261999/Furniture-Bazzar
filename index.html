@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project</title>
+    <title>
+        Furniture Bazzar
+    </title>
+    <link href="images/icons/tabbar.png">
     <link rel="stylesheet" href="css/index.css">
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap" rel="stylesheet">
@@ -31,7 +34,7 @@
         <!-- nav logo -->
         <div class="nav-logo flex">
             <!-- <img src="" alt="logo.png"> -->
-            <div>Project</div>
+            <div>Furniture Bazaar</div>
         </div>
         <!-- nov list -->
         <div class="nav-list flex">
@@ -39,7 +42,7 @@
                 <a href="#">Home</a>
             </div>
             <div class="item">
-                <a href="#allProducts">Shop Now</a>
+                <a href="#allProducts">Store</a>
             </div>
         </div>
         <!-- nav right list -->
@@ -79,13 +82,15 @@
                         <h5 class="modal-title" id="exampleModalLabel">Sign In</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body authModal-body">
-                        <div class="authModal-body">
-                            <input type="email" name="email" placeholder="Enter Your Email Address">
-                            <input type="password" name="password" placeholder="Enter Your Password">
-                            <button type="button" class="btn btnMain">Sign In</button>
-                        </div>
+                    <div class="modal-body">
+                        <form action="" id="login-form">
+                            <div class="authModal-body">
+                                <input type="email" name="email" placeholder="Enter Your Email Address">
+                                <input type="password" name="password" placeholder="Enter Your Password">
+                                <button type="button" class="btn btnMain" onclick="Login()">Sign In</button>
+                            </div>
                     </div>
+                    </form>
                     <div class="modal-footer">
                         <div>
                             <a href="#">Forgot password?</a>
@@ -190,7 +195,7 @@
                         <a class="btn btnMain px-4">Buy Now</a>
                     </div>
                 </div>
-                 <div class="card text-center">
+                <div class="card text-center">
                     <div class="card-body">
                         <img src="images/coupen/Ash.png" alt="Bed" width="100px" height="200px">
                         <h5 class="card-title">Special title treatment</h5>
