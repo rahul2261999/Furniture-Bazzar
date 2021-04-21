@@ -28,7 +28,7 @@ const formError = {
 
 // form validation
 
-function validation(formData,formError) {
+function validation(formData, formError) {
     let isValid = true;
 
     for (item of formData.entries()) {
@@ -40,13 +40,13 @@ function validation(formData,formError) {
         }
 
         if (item[0] === 'password') {
-            const valid = item[1].trim().length>0 && item[1].trim() !== '';
+            const valid = item[1].trim().length > 0 && item[1].trim() !== '';
             formError.password = !valid;
             isValid = valid && isValid
         }
 
         if (item[0] === 'confirmPassword') {
-        	console.log(formData.get('confirmPassword').trim())
+            console.log(formData.get('confirmPassword').trim())
             const valid = item[1].trim() == formData.get('confirmPassword').trim()
             formError.confirmPassword = !valid
             isValid = valid && isValid
@@ -62,12 +62,21 @@ function validation(formData,formError) {
 function Login() {
     const form = document.getElementById('login-form')
     const formData = new FormData(form)
-    const error = {...formError}
-    const validate = validation(formData,error);
+    const error = { ...formError }
+    const validate = validation(formData, error);
 
     if (validate) {
-        // send data
-        alert("form submit")
+    	
+        firebase.auth().signInWithEmailAndPassword(formData.get('email'),formData.get('password') )
+            .then((userCredential) => {
+                // Signed in
+                var user = userCredential.user;
+                // ...
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+            });
     } else {
         const target = document.getElementsByClassName('authModal-body')[1];
         const ul = document.createElement('ul');
@@ -79,9 +88,8 @@ function Login() {
                 li.style.color = 'red'
                 li.style.fontSize = '14px'
                 ul.append(li)
-            }
-            else{
-            	ul.append('')
+            } else {
+                ul.append('')
             }
         }
         if (target.firstChild.tagName === 'UL') {
@@ -94,18 +102,32 @@ function Login() {
 
 // function Signup
 
-function Signup(){
-	const form = document.getElementById('signupFrom');
-	const SignupFormData = new FormData(form)
-	const error = {...formError}
-	const validate = validation(SignupFormData,error);
+function Signup() {
+    const form = document.getElementById('signupFrom');
+    const SignupFormData = new FormData(form)
+    const error = { ...formError }
+    const validate = validation(SignupFormData, error);
 
-	if(validate){
-		alert("User Signup SuccessFully");
-	}else{
-		const target = document.getElementsByClassName('authModal-body')[0];
+    if (validate) {
+
+        firebase.auth().createUserWithEmailAndPassword(SignupFormData.get('email'), SignupFormData.get('password'))
+            .then((userCredential) => {
+                // Signed in 
+                var user = userCredential.user;
+                console.log(user)
+                // ...
+            })
+            .catch((error) => {
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                // ..
+            });
+        alert("User Signup SuccessFully");
+
+    } else {
+        const target = document.getElementsByClassName('authModal-body')[0];
         const ul = document.createElement('ul');
-       		  ul.style.listStyleType = 'disc';
+        ul.style.listStyleType = 'disc';
         for (let item of Object.entries(error)) {
             if (item[1]) {
                 const li = document.createElement('li')
@@ -113,9 +135,8 @@ function Signup(){
                 li.style.color = 'red'
                 li.style.fontSize = '14px'
                 ul.append(li)
-            }
-            else{
-            	ul.append('')
+            } else {
+                ul.append('')
             }
         }
         if (target.firstChild.tagName === 'UL') {
@@ -123,20 +144,20 @@ function Signup(){
         } else {
             target.prepend(ul)
         }
-	}
+    }
 }
 
-document.getElementById('signup').addEventListener('hidden.bs.modal',function(){
-	document.getElementById('signupFrom').reset()
-	const authclass = document.getElementsByClassName('authModal-body')
-		if(authclass[0].firstChild.nodeName.toLowerCase()==='ul'){
-			authclass[0].removeChild(authclass[0].firstChild)
-		}
+document.getElementById('signup').addEventListener('hidden.bs.modal', function() {
+    document.getElementById('signupFrom').reset()
+    const authclass = document.getElementsByClassName('authModal-body')
+    if (authclass[0].firstChild.nodeName.toLowerCase() === 'ul') {
+        authclass[0].removeChild(authclass[0].firstChild)
+    }
 })
-document.getElementById('signIn').addEventListener('hidden.bs.modal',function(){
-	document.getElementById('login-form').reset()
-	const authclass = document.getElementsByClassName('authModal-body')
-		if(authclass[1].firstChild.nodeName.toLowerCase()==='ul'){
-			authclass[1].removeChild(authclass[1].firstChild)
-	    }
+document.getElementById('signIn').addEventListener('hidden.bs.modal', function() {
+    document.getElementById('login-form').reset()
+    const authclass = document.getElementsByClassName('authModal-body')
+    if (authclass[1].firstChild.nodeName.toLowerCase() === 'ul') {
+        authclass[1].removeChild(authclass[1].firstChild)
+    }
 })
