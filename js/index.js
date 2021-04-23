@@ -142,6 +142,7 @@ function Signup() {
             }),
             success: function(res) {
                 alertMsg("User Signup Successfully,please SignIn","success",true,'signup .modal-content')
+                form.reset()
             },
             error:function(err){
                 const msg = err.responseJSON.error.message.replaceAll('_', ' ');
@@ -264,7 +265,7 @@ function alertMsg(msg, alertType, modal = false, alertMount = null) {
     } else {
         parent = document.getElementsByTagName('body')[0]
         parent.insertBefore(div, parent.children[1])
-        removeAlert = parent.removeChild(parent.children[1])
+        removeAlert = parent.children[1]
     }
 
     // remove alert after 2 second
