@@ -274,3 +274,10 @@ function alertMsg(msg, alertType, modal = false, alertMount = null) {
     }, 2000)
 
 }
+
+// toggle cart
+
+function showCart(ref,showData){
+    document.querySelector(ref).classList.toggle('hide')
+    document.querySelector(showData).classList.toggle('hide')
+}
