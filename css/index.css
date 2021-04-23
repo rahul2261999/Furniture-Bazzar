@@ -274,7 +274,9 @@ a {
     }
 }
 
-
+#profile{
+    display: none;
+}
 /*user on login*/
 .profile-drop li a {
     display: flex;

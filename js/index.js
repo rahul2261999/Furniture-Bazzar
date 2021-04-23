@@ -18,6 +18,9 @@ $(document).ready(function() {
             prevEl: '.swiper-button-prev',
         },
     });
+    // checkuser is signed or not
+    isSignedIn()
+    console.log(isAuthenticated())
 })
 
 const formError = {
@@ -80,9 +83,10 @@ function Login() {
             }),
             success: function(res) {
                 console.log(res)
-                const { idToken, email, localId,refreshToken,expiresIn } = res
-                localStorage.setItem('token', idToken);
-                localStorage.setItem('user', JSON.stringify({ email, expiresIn, localId,refreshToken }))
+                const { idToken, email, localId, refreshToken, expiresIn } = res
+                localStorage.setItem('token', JSON.stringify({idToken,user:{localId,email,refreshToken,expiresIn}}));
+                window.location.reload()
+
             },
             error: function(err) {}
         })
@@ -162,8 +166,9 @@ function Signup() {
 
 // signout user
 function Signout() {
-        localStorage.clear();
-        alert("user logged out")
+    alert("user logged out")
+    localStorage.clear();
+    isSignedIn()
 }
 
 // reset form data on modal close
@@ -182,3 +187,44 @@ document.getElementById('signIn').addEventListener('hidden.bs.modal', function()
         authclass[1].removeChild(authclass[1].firstChild)
     }
 })
+
+
+
+// helper functions
+
+// close modal
+
+function closeModal(modalref) {
+}
+
+// check user is logged in or not;
+
+function isAuthenticated() {
+
+    if (typeof window === 'undefiend') {
+        return false
+    } else {
+        return JSON.parse(localStorage.getItem('token'))
+    }
+    return false
+
+}
+
+// isSignedIn function
+
+function isSignedIn() {
+    if (window == 'undefiend') {
+        return false;
+    }
+
+    if (isAuthenticated()) {
+        document.getElementById('profile').style.display = "block";
+        document.getElementById('main-auth').style.display = "none";
+        console.log('here')
+        return true
+    } else {
+        document.getElementById('profile').style.display = "none";
+        document.getElementById('main-auth').style.display = "block";
+    }
+    return false
+}

@@ -47,8 +47,8 @@
         </div>
         <!-- nav right list -->
         <div class="nav-right-list">
-            <!-- <div class="auth" data-bs-toggle="modal" data-bs-target="#signIn">Sign In </div> -->
-            <div class="dropdown">
+            <div class="auth" id="main-auth" data-bs-toggle="modal" data-bs-target="#signIn">Sign In </div>
+            <div class="dropdown" id="profile">
                 <div class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     User Name
                 </div>
@@ -97,8 +97,8 @@
                         <!--  login form -->
                         <form action="" id="login-form">
                             <div class="authModal-body">
-                                <input type="email" name="email" placeholder="Enter Your Email Address">
-                                <input type="password" name="password" placeholder="Enter Your Password">
+                                <input type="email" name="email" placeholder="Enter Your Email Address" value="test@gmail.co">
+                                <input type="password" name="password" placeholder="Enter Your Password" value="123456">
                                 <button type="button" class="btn btnMain" onclick="Login()">Sign In</button>
                             </div>
                     </div>
