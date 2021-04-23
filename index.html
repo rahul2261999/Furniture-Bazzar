@@ -47,8 +47,18 @@
         </div>
         <!-- nav right list -->
         <div class="nav-right-list">
-            <div class="auth" data-bs-toggle="modal" data-bs-target="#signIn">Sign In </div>
-        </div>
+            <!-- <div class="auth" data-bs-toggle="modal" data-bs-target="#signIn">Sign In </div> -->
+            <div class="dropdown">
+                <div class="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    User Name
+                </div>
+                <ul class="dropdown-menu profile-drop" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#"><i class='bx bx-user' ></i> Profile</a></li>
+                    <li><a class="dropdown-item" href="#"><i class='bx bx-wrench'></i> Settings</a></li>
+                    <li><a class="dropdown-item" onclick="Signout()"><i class='bx bx-power-off'></i> Signout</a></li>
+                </ul>
+            </div>
+        </div> 
         <!-- Sign Up modal -->
         <div class="modal fade" id="signup" tabindex="-1" aria-labelledby="signup" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">

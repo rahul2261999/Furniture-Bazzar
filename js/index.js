@@ -64,19 +64,28 @@ function Login() {
     const formData = new FormData(form)
     const error = { ...formError }
     const validate = validation(formData, error);
-
     if (validate) {
-    	
-        firebase.auth().signInWithEmailAndPassword(formData.get('email'),formData.get('password') )
-            .then((userCredential) => {
-                // Signed in
-                var user = userCredential.user;
-                // ...
-            })
-            .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-            });
+        $.ajax({
+            method: 'post',
+            url: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCQjXcjx8inkJsZOCe2ukhlraPajgCBObY',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            origin: 'cors',
+            async: false,
+            data: JSON.stringify({
+                'email': formData.get('email'),
+                'password': formData.get('password'),
+                'returnSecureToken': true
+            }),
+            success: function(res) {
+                console.log(res)
+                const { idToken, email, localId,refreshToken,expiresIn } = res
+                localStorage.setItem('token', idToken);
+                localStorage.setItem('user', JSON.stringify({ email, expiresIn, localId,refreshToken }))
+            },
+            error: function(err) {}
+        })
     } else {
         const target = document.getElementsByClassName('authModal-body')[1];
         const ul = document.createElement('ul');
@@ -110,19 +119,23 @@ function Signup() {
 
     if (validate) {
 
-        firebase.auth().createUserWithEmailAndPassword(SignupFormData.get('email'), SignupFormData.get('password'))
-            .then((userCredential) => {
-                // Signed in 
-                var user = userCredential.user;
-                console.log(user)
-                // ...
-            })
-            .catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                // ..
-            });
-        alert("User Signup SuccessFully");
+        $.ajax({
+            method: 'post',
+            url: 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCQjXcjx8inkJsZOCe2ukhlraPajgCBObY',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            origin: 'cors',
+            async: false,
+            data: JSON.stringify({
+                'email': SignupFormData.get('email'),
+                'password': SignupFormData.get('password'),
+                'returnSecureToken': true
+            }),
+            success: function(res) {
+                alert('user created success')
+            }
+        })
 
     } else {
         const target = document.getElementsByClassName('authModal-body')[0];
@@ -146,6 +159,14 @@ function Signup() {
         }
     }
 }
+
+// signout user
+function Signout() {
+        localStorage.clear();
+        alert("user logged out")
+}
+
+// reset form data on modal close
 
 document.getElementById('signup').addEventListener('hidden.bs.modal', function() {
     document.getElementById('signupFrom').reset()
