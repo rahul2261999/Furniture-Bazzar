@@ -18,6 +18,8 @@ $(document).ready(function() {
             prevEl: '.swiper-button-prev',
         },
     });
+    // checkuser is signed or not
+    isSignedIn()
 })
 
 const formError = {
@@ -28,7 +30,7 @@ const formError = {
 
 // form validation
 
-function validation(formData,formError) {
+function validation(formData, formError) {
     let isValid = true;
 
     for (item of formData.entries()) {
@@ -40,13 +42,12 @@ function validation(formData,formError) {
         }
 
         if (item[0] === 'password') {
-            const valid = item[1].trim().length>0 && item[1].trim() !== '';
+            const valid = item[1].trim().length > 0 && item[1].trim() !== '';
             formError.password = !valid;
             isValid = valid && isValid
         }
 
         if (item[0] === 'confirmPassword') {
-        	console.log(formData.get('confirmPassword').trim())
             const valid = item[1].trim() == formData.get('confirmPassword').trim()
             formError.confirmPassword = !valid
             isValid = valid && isValid
@@ -62,14 +63,39 @@ function validation(formData,formError) {
 function Login() {
     const form = document.getElementById('login-form')
     const formData = new FormData(form)
-    const error = {...formError}
-    const validate = validation(formData,error);
-
+    const error = { ...formError }
+    const validate = validation(formData, error);
     if (validate) {
-        // send data
-        alert("form submit")
+        $.ajax({
+            method: 'post',
+            url: 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCQjXcjx8inkJsZOCe2ukhlraPajgCBObY',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            origin: 'cors',
+            async: false,
+            data: JSON.stringify({
+                'email': formData.get('email'),
+                'password': formData.get('password'),
+                'returnSecureToken': true
+            }),
+            success: function(res) {
+                const { idToken, email, localId, refreshToken, expiresIn } = res
+                localStorage.setItem('token', JSON.stringify({ idToken, user: { localId, email, refreshToken, expiresIn } }));
+                alertMsg("User Signed In Successfully", "success",true,'signIn .modal-content')
+                setTimeout(function() {
+                    window.location.reload()
+                }, 2000)
+
+
+            },
+            error: function(err) {
+                const msg = err.responseJSON.error.message.replaceAll('_', ' ');
+                alertMsg(msg, 'error',true,'signIn .modal-content')
+            }
+        })
     } else {
-        const target = document.getElementsByClassName('authModal-body')[1];
+        const target = document.getElementsByclassName('authModal-body')[1];
         const ul = document.createElement('ul');
         ul.style.listStyleType = 'disc';
         for (let item of Object.entries(error)) {
@@ -79,9 +105,8 @@ function Login() {
                 li.style.color = 'red'
                 li.style.fontSize = '14px'
                 ul.append(li)
-            }
-            else{
-            	ul.append('')
+            } else {
+                ul.append('')
             }
         }
         if (target.firstChild.tagName === 'UL') {
@@ -94,18 +119,41 @@ function Login() {
 
 // function Signup
 
-function Signup(){
-	const form = document.getElementById('signupFrom');
-	const SignupFormData = new FormData(form)
-	const error = {...formError}
-	const validate = validation(SignupFormData,error);
+function Signup() {
+    const form = document.getElementById('signupFrom');
+    const SignupFormData = new FormData(form)
+    const error = { ...formError }
+    const validate = validation(SignupFormData, error);
 
-	if(validate){
-		alert("User Signup SuccessFully");
-	}else{
-		const target = document.getElementsByClassName('authModal-body')[0];
+    if (validate) {
+
+        $.ajax({
+            method: 'post',
+            url: 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCQjXcjx8inkJsZOCe2ukhlraPajgCBObY',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            origin: 'cors',
+            async: false,
+            data: JSON.stringify({
+                'email': SignupFormData.get('email'),
+                'password': SignupFormData.get('password'),
+                'returnSecureToken': true
+            }),
+            success: function(res) {
+                alertMsg("User Signup Successfully,please SignIn","success",true,'signup .modal-content')
+                form.reset()
+            },
+            error:function(err){
+                const msg = err.responseJSON.error.message.replaceAll('_', ' ');
+                alertMsg(msg,'error',true,'signup .modal-content')
+            }
+        })
+
+    } else {
+        const target = document.getElementsByClassName('authModal-body')[0];
         const ul = document.createElement('ul');
-       		  ul.style.listStyleType = 'disc';
+        ul.style.listStyleType = 'disc';
         for (let item of Object.entries(error)) {
             if (item[1]) {
                 const li = document.createElement('li')
@@ -113,9 +161,8 @@ function Signup(){
                 li.style.color = 'red'
                 li.style.fontSize = '14px'
                 ul.append(li)
-            }
-            else{
-            	ul.append('')
+            } else {
+                ul.append('')
             }
         }
         if (target.firstChild.tagName === 'UL') {
@@ -123,20 +170,107 @@ function Signup(){
         } else {
             target.prepend(ul)
         }
-	}
+    }
 }
 
-document.getElementById('signup').addEventListener('hidden.bs.modal',function(){
-	document.getElementById('signupFrom').reset()
-	const authclass = document.getElementsByClassName('authModal-body')
-		if(authclass[0].firstChild.nodeName.toLowerCase()==='ul'){
-			authclass[0].removeChild(authclass[0].firstChild)
-		}
+// signout user
+function Signout() {
+    localStorage.clear();
+    isSignedIn()
+    alertMsg('User Signout Successfully', 'success')
+}
+
+// reset form data on modal close
+
+document.getElementById('signup').addEventListener('hidden.bs.modal', function() {
+    document.getElementById('signupFrom').reset()
+    const authclassName = document.getElementsByClassName('authModal-body')
+    if (authclassName[0].firstChild.nodeName.toLowerCase() === 'ul') {
+        authclassName[0].removeChild(authclassName[0].firstChild)
+    }
 })
-document.getElementById('signIn').addEventListener('hidden.bs.modal',function(){
-	document.getElementById('login-form').reset()
-	const authclass = document.getElementsByClassName('authModal-body')
-		if(authclass[1].firstChild.nodeName.toLowerCase()==='ul'){
-			authclass[1].removeChild(authclass[1].firstChild)
-	    }
+document.getElementById('signIn').addEventListener('hidden.bs.modal', function() {
+    document.getElementById('login-form').reset()
+    const authclassName = document.getElementsByClassName('authModal-body')
+    if (authclassName[1].firstChild.nodeName.toLowerCase() === 'ul') {
+        authclassName[1].removeChild(authclassName[1].firstChild)
+    }
 })
+
+
+
+// helper functions
+
+// check user is logged in or not;
+
+function isAuthenticated() {
+
+    if (typeof window === 'undefiend') {
+        return false
+    } else {
+        return JSON.parse(localStorage.getItem('token'))
+    }
+    return false
+
+}
+
+// isSignedIn function
+
+function isSignedIn() {
+    if (window == 'undefiend') {
+        return false;
+    }
+
+    if (isAuthenticated()) {
+        document.getElementById('profile').style.display = "block";
+        document.getElementById('main-auth').style.display = "none";
+        return true
+    } else {
+        document.getElementById('profile').style.display = "none";
+        document.getElementById('main-auth').style.display = "block";
+    }
+    return false
+}
+
+// Show Error Alert
+
+function alertMsg(msg, alertType, modal = false, alertMount = null) {
+    let className = ''
+    let removeAlert = null
+    let parent = null
+
+
+    if (alertType.toUpperCase() === 'SUCCESS') {
+        className = 'alert-success'
+    }
+
+    if (alertType.toUpperCase() === "ERROR") {
+        className = 'alert-error'
+    }
+
+    if (alertType.toUpperCase() === "WARNING") {
+        className = 'alert-warning'
+    }
+
+    const div = document.createElement('div')
+    div.setAttribute('class', `alert alertMsg ${className}`)
+    div.setAttribute('role', 'alert')
+    div.append(msg)
+
+    if (modal) {
+        // if modal
+        parent = document.querySelector(`#${alertMount}`);
+        parent.prepend(div)
+        removeAlert = parent.firstChild
+    } else {
+        parent = document.getElementsByTagName('body')[0]
+        parent.insertBefore(div, parent.children[1])
+        removeAlert = parent.children[1]
+    }
+
+    // remove alert after 2 second
+    setTimeout(function() {
+        parent.removeChild(removeAlert)
+    }, 2000)
+
+}

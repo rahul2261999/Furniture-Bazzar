@@ -1,0 +1,22 @@
+.alertMsg {
+    position: absolute;
+    right: 30px;
+    z-index: 33;
+    margin-top: 8px;
+    width: 300px;
+    font-size: 15px;
+    word-break: break-all;
+    display: block;
+}
+
+.alert-success{
+	background-color: #5b973c;
+	color: #ffffff;
+	border-color: #5b973c;
+}
+
+.alert-error{
+	background-color: #df0000;
+	color: #ffffff;
+	border-color: #df0000;
+}

@@ -273,3 +273,24 @@ a {
         font-size: 18px;
     }
 }
+
+#profile{
+    display: none;
+}
+/*user on login*/
+.profile-drop li a {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    padding: 8px 14px;
+    color: #8e75bd;
+}
+
+.profile-drop li a:hover{
+    color: #ffffff;
+    background-color:#8e75bd 
+}
+
+.profile-drop li a>i {
+    padding-right: 8px
+}
