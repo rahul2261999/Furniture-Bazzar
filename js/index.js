@@ -20,7 +20,6 @@ $(document).ready(function() {
     });
     // checkuser is signed or not
     isSignedIn()
-    console.log(isAuthenticated())
 })
 
 const formError = {
@@ -49,7 +48,6 @@ function validation(formData, formError) {
         }
 
         if (item[0] === 'confirmPassword') {
-            console.log(formData.get('confirmPassword').trim())
             const valid = item[1].trim() == formData.get('confirmPassword').trim()
             formError.confirmPassword = !valid
             isValid = valid && isValid
@@ -82,16 +80,22 @@ function Login() {
                 'returnSecureToken': true
             }),
             success: function(res) {
-                console.log(res)
                 const { idToken, email, localId, refreshToken, expiresIn } = res
-                localStorage.setItem('token', JSON.stringify({idToken,user:{localId,email,refreshToken,expiresIn}}));
-                window.location.reload()
+                localStorage.setItem('token', JSON.stringify({ idToken, user: { localId, email, refreshToken, expiresIn } }));
+                alertMsg("User Signed In Successfully", "success",true,'signIn .modal-content')
+                setTimeout(function() {
+                    window.location.reload()
+                }, 2000)
+
 
             },
-            error: function(err) {}
+            error: function(err) {
+                const msg = err.responseJSON.error.message.replaceAll('_', ' ');
+                alertMsg(msg, 'error',true,'signIn .modal-content')
+            }
         })
     } else {
-        const target = document.getElementsByClassName('authModal-body')[1];
+        const target = document.getElementsByclassName('authModal-body')[1];
         const ul = document.createElement('ul');
         ul.style.listStyleType = 'disc';
         for (let item of Object.entries(error)) {
@@ -137,7 +141,11 @@ function Signup() {
                 'returnSecureToken': true
             }),
             success: function(res) {
-                alert('user created success')
+                alertMsg("User Signup Successfully,please SignIn","success",true,'signup .modal-content')
+            },
+            error:function(err){
+                const msg = err.responseJSON.error.message.replaceAll('_', ' ');
+                alertMsg(msg,'error',true,'signup .modal-content')
             }
         })
 
@@ -166,36 +174,31 @@ function Signup() {
 
 // signout user
 function Signout() {
-    alert("user logged out")
     localStorage.clear();
     isSignedIn()
+    alertMsg('User Signout Successfully', 'success')
 }
 
 // reset form data on modal close
 
 document.getElementById('signup').addEventListener('hidden.bs.modal', function() {
     document.getElementById('signupFrom').reset()
-    const authclass = document.getElementsByClassName('authModal-body')
-    if (authclass[0].firstChild.nodeName.toLowerCase() === 'ul') {
-        authclass[0].removeChild(authclass[0].firstChild)
+    const authclassName = document.getElementsByClassName('authModal-body')
+    if (authclassName[0].firstChild.nodeName.toLowerCase() === 'ul') {
+        authclassName[0].removeChild(authclassName[0].firstChild)
     }
 })
 document.getElementById('signIn').addEventListener('hidden.bs.modal', function() {
     document.getElementById('login-form').reset()
-    const authclass = document.getElementsByClassName('authModal-body')
-    if (authclass[1].firstChild.nodeName.toLowerCase() === 'ul') {
-        authclass[1].removeChild(authclass[1].firstChild)
+    const authclassName = document.getElementsByClassName('authModal-body')
+    if (authclassName[1].firstChild.nodeName.toLowerCase() === 'ul') {
+        authclassName[1].removeChild(authclassName[1].firstChild)
     }
 })
 
 
 
 // helper functions
-
-// close modal
-
-function closeModal(modalref) {
-}
 
 // check user is logged in or not;
 
@@ -220,11 +223,53 @@ function isSignedIn() {
     if (isAuthenticated()) {
         document.getElementById('profile').style.display = "block";
         document.getElementById('main-auth').style.display = "none";
-        console.log('here')
         return true
     } else {
         document.getElementById('profile').style.display = "none";
         document.getElementById('main-auth').style.display = "block";
     }
     return false
+}
+
+// Show Error Alert
+
+function alertMsg(msg, alertType, modal = false, alertMount = null) {
+    let className = ''
+    let removeAlert = null
+    let parent = null
+
+
+    if (alertType.toUpperCase() === 'SUCCESS') {
+        className = 'alert-success'
+    }
+
+    if (alertType.toUpperCase() === "ERROR") {
+        className = 'alert-error'
+    }
+
+    if (alertType.toUpperCase() === "WARNING") {
+        className = 'alert-warning'
+    }
+
+    const div = document.createElement('div')
+    div.setAttribute('class', `alert alertMsg ${className}`)
+    div.setAttribute('role', 'alert')
+    div.append(msg)
+
+    if (modal) {
+        // if modal
+        parent = document.querySelector(`#${alertMount}`);
+        parent.prepend(div)
+        removeAlert = parent.firstChild
+    } else {
+        parent = document.getElementsByTagName('body')[0]
+        parent.insertBefore(div, parent.children[1])
+        removeAlert = parent.removeChild(parent.children[1])
+    }
+
+    // remove alert after 2 second
+    setTimeout(function() {
+        parent.removeChild(removeAlert)
+    }, 2000)
+
 }
