@@ -82,7 +82,7 @@ function Login() {
             success: function(res) {
                 const { idToken, email, localId, refreshToken, expiresIn } = res
                 localStorage.setItem('token', JSON.stringify({ idToken, user: { localId, email, refreshToken, expiresIn } }));
-                alertMsg("User Signed In Successfully", "success",true,'signIn .modal-content')
+                alertMsg("User Signed In Successfully", "success", true, 'signIn .modal-content')
                 setTimeout(function() {
                     window.location.reload()
                 }, 2000)
@@ -91,7 +91,7 @@ function Login() {
             },
             error: function(err) {
                 const msg = err.responseJSON.error.message.replaceAll('_', ' ');
-                alertMsg(msg, 'error',true,'signIn .modal-content')
+                alertMsg(msg, 'error', true, 'signIn .modal-content')
             }
         })
     } else {
@@ -141,12 +141,12 @@ function Signup() {
                 'returnSecureToken': true
             }),
             success: function(res) {
-                alertMsg("User Signup Successfully,please SignIn","success",true,'signup .modal-content')
+                alertMsg("User Signup Successfully,please SignIn", "success", true, 'signup .modal-content')
                 form.reset()
             },
-            error:function(err){
+            error: function(err) {
                 const msg = err.responseJSON.error.message.replaceAll('_', ' ');
-                alertMsg(msg,'error',true,'signup .modal-content')
+                alertMsg(msg, 'error', true, 'signup .modal-content')
             }
         })
 
@@ -180,6 +180,50 @@ function Signout() {
     alertMsg('User Signout Successfully', 'success')
 }
 
+
+// fetch data from api
+function fetchData(dbref) {
+    fetch(`https://practise-a92ff-default-rtdb.firebaseio.com/${dbref}.json`)
+        .then(res => res.json())
+        .then(data => {
+            localStorage.setItem('product', JSON.stringify(data))
+
+            createCard(data)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+
+}
+
+
+// create product card
+
+function createCard(res) {
+    console.log(Object.keys(res))
+    let dataNode = ''
+    Object.keys(res).forEach(data => {
+        console.log(res[data])
+        dataNode = `
+             <div class="item-card">
+                    <div class="main-body">
+                        <img src="./images/coupen/Ash.png" alt=${res[data].product_name}>
+                        <div class="card-data">
+                            <div class="product-name">${res[data].product_name}</div>
+                            <div class="product-price"><i class='bx bx-rupee'></i> ${res[data].price}</div>
+                            <div class="btn add-cart" data-prodid=${res[data].prodId} onclick="addToCart(this)"><i class="bx bx-shopping-bag"></i> Cart</div>
+                        </div>
+                    </div>
+                </div>
+    `
+            $('.item-list').append(dataNode)
+    })
+}
+
+
+// helper functions
+
+
 // reset form data on modal close
 
 document.getElementById('signup').addEventListener('hidden.bs.modal', function() {
@@ -197,9 +241,6 @@ document.getElementById('signIn').addEventListener('hidden.bs.modal', function()
     }
 })
 
-
-
-// helper functions
 
 // check user is logged in or not;
 
@@ -277,7 +318,7 @@ function alertMsg(msg, alertType, modal = false, alertMount = null) {
 
 // toggle cart
 
-function showCart(ref,showData){
+function showCart(ref, showData) {
     document.querySelector(ref).classList.toggle('hide')
     document.querySelector(showData).classList.toggle('hide')
 }

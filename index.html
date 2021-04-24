@@ -162,7 +162,7 @@
     <div class="data-container" id="allProducts">
         <div class="data-side-bar">
             <ul>
-                <li>
+                <li onclick="fetchData('beds')">
                     <div class="header">
                         <div class="header-left">
                             <i class='bx bx-bed'></i>
@@ -171,7 +171,7 @@
                         <i class='bx bxs-chevron-right'></i>
                     </div>
                 </li>
-                <li>
+                <li onclick ="fetchData('chairs')">
                     <div class="header">
                         <div class="header-left">
                             <i class='bx bx-bed'></i>
@@ -180,7 +180,7 @@
                         <i class='bx bxs-chevron-right'></i>
                     </div>
                 </li>
-                <li>
+                <li onclick="fetchData('sofa')">
                     <div class="header">
                         <div class="header-left">
                             <i class='bx bx-bed'></i>
@@ -189,7 +189,7 @@
                         <i class='bx bxs-chevron-right'></i>
                     </div>
                 </li>
-                <li>
+                <li onclick="fetchData('table')">
                     <div class="header">
                         <div class="header-left">
                             <i class='bx bx-bed'></i>
@@ -203,26 +203,7 @@
         <div class="product-data">
             <div class="item-list">
                 <!-- card -->
-                <div class="item-card">
-                    <div class="main-body">
-                        <img src="./images/coupen/Ash.png" alt="ash">
-                        <div class="card-data">
-                            <div class="product-name">Premium Bed</div>
-                            <div class="product-price"><i class='bx bx-rupee'></i> 500</div>
-                            <div class="btn add-cart" data-prodId="45545"><i class="bx bx-shopping-bag"></i> Cart</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="item-card">
-                    <div class="main-body">
-                        <img src="./images/coupen/Ash.png" alt="ash">
-                        <div class="card-data">
-                            <div class="product-name">Premium Bed</div>
-                            <div class="product-price"><i class='bx bx-rupee'></i> 500</div>
-                            <div class="btn add-cart" data-prodId="45545"><i class="bx bx-shopping-bag"></i> Cart</div>
-                        </div>
-                    </div>
-                </div>
+    
             </div>
         </div>
     </div>
@@ -230,15 +211,15 @@
     <div id="cart">
         <div class="cart-box" onclick="showCart('#cart .cart-box','#cart .full-cart')">
             <div class="header">
-                <i class='bx bx-shopping-bag'></i> <span class="item">1</span> Item
+                <i class='bx bx-shopping-bag'></i> <span class="cart-item">0</span> Item
             </div>
-            <div class="quantity"><i class='bx bx-rupee'></i><span id="price">500</span></div>
+            <div class="quantity"><i class='bx bx-rupee'></i><span class="cart-price">500</span></div>
         </div>
         <div class="full-cart hide">
             <!-- cart header -->
             <div class="cart-header">
                 <div class="left">
-                    <i class='bx bx-shopping-bag'></i> <span class="cart-item">1</span> Item
+                    <i class='bx bx-shopping-bag'></i> <span class="cart-item">0</span> Item
                 </div>
                 <div class="right">
                     <div class="cart-close" onclick="showCart('#cart .full-cart','#cart .cart-box')"><i class='bx bx-x'></i></div>
@@ -251,7 +232,7 @@
             <div class="cart-footer">
                 <div class="checkout">
                     <div>Checkout</div>
-                    <div id="total-price"><i class='bx bx-rupee'></i> 500</div>
+                    <div id="total-price"><i class='bx bx-rupee'></i> <span class="cart-price"></span></div>
                 </div>
             </div>
         </div>
@@ -276,6 +257,7 @@
     firebase.initializeApp(firebaseConfig);
     </script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/cart.js"></script>
 </body>
 
 </html>
