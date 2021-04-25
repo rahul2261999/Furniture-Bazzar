@@ -200,11 +200,13 @@ function fetchData(dbref) {
 // create product card
 
 function createCard(res) {
-    console.log(Object.keys(res))
     let dataNode = ''
-    Object.keys(res).forEach(data => {
-        console.log(res[data])
-        dataNode = `
+    $('.item-list').hide().empty()
+
+    setTimeout(() => {
+        if (res) {
+            Object.keys(res).forEach(data => {
+                dataNode = `
              <div class="item-card">
                     <div class="main-body">
                         <img src="./images/coupen/Ash.png" alt=${res[data].product_name}>
@@ -216,8 +218,16 @@ function createCard(res) {
                     </div>
                 </div>
     `
-            $('.item-list').append(dataNode)
-    })
+
+                $('.item-list').append(dataNode)
+            })
+        }
+
+
+        $('.item-list').show('normal', 'linear')
+    }, 0)
+
+
 }
 
 

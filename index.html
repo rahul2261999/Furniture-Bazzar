@@ -21,6 +21,7 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/ButtonColor/btnColor.css">
     <link rel="stylesheet" type="text/css" href="css/alertMsg.css">
+    <link rel="stylesheet" href="css/cart.css">
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- JavaScript Bundle with Popper -->
@@ -171,7 +172,7 @@
                         <i class='bx bxs-chevron-right'></i>
                     </div>
                 </li>
-                <li onclick ="fetchData('chairs')">
+                <li onclick="fetchData('chairs')">
                     <div class="header">
                         <div class="header-left">
                             <i class='bx bx-bed'></i>
@@ -203,7 +204,6 @@
         <div class="product-data">
             <div class="item-list">
                 <!-- card -->
-    
             </div>
         </div>
     </div>
@@ -213,7 +213,7 @@
             <div class="header">
                 <i class='bx bx-shopping-bag'></i> <span class="cart-item">0</span> Item
             </div>
-            <div class="quantity"><i class='bx bx-rupee'></i><span class="cart-price">500</span></div>
+            <div class="quantity"><i class='bx bx-rupee'></i><span class="cart-price">0</span></div>
         </div>
         <div class="full-cart hide">
             <!-- cart header -->
@@ -232,32 +232,31 @@
             <div class="cart-footer">
                 <div class="checkout">
                     <div>Checkout</div>
-                    <div id="total-price"><i class='bx bx-rupee'></i> <span class="cart-price"></span></div>
+                    <div id="total-price"><i class='bx bx-rupee'></i> <span class="cart-price">0</span></div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
-    <!-- Add Firebase products that you want to use -->
-    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
-    <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-        apiKey: "AIzaSyCQjXcjx8inkJsZOCe2ukhlraPajgCBObY",
-        authDomain: "practise-a92ff.firebaseapp.com",
-        projectId: "practise-a92ff",
-        storageBucket: "practise-a92ff.appspot.com",
-        messagingSenderId: "552606425124",
-        appId: "1:552606425124:web:72983108188f61afda78b1"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    </script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript" src="js/cart.js"></script>
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+        <!-- Add Firebase products that you want to use -->
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+        <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyCQjXcjx8inkJsZOCe2ukhlraPajgCBObY",
+            authDomain: "practise-a92ff.firebaseapp.com",
+            projectId: "practise-a92ff",
+            storageBucket: "practise-a92ff.appspot.com",
+            messagingSenderId: "552606425124",
+            appId: "1:552606425124:web:72983108188f61afda78b1"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        </script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/cart.js"></script>
 </body>
 
 </html>
