@@ -1,16 +1,18 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    createAddedProductCard(JSON.parse(localStorage.getItem('cart')))
+    const cart = JSON.parse(localStorage.getItem('cart'))
+    updateCartvalue(cart)
+    createAddedProductCard(cart)
 });
+
+
 
 function addToCart(ref) {
     const prodId = ref.dataset.prodid
     const Cart = JSON.parse(localStorage.getItem('cart')) || [];
     const prodData = JSON.parse(localStorage.getItem('product'))
     const itemExits = Cart.find(item => +item.prodId === +prodId)
-    console.log(itemExits, prodId)
     let newCart = null
     if (!itemExits) {
-        console.log('newItem')
         const prod = Object.entries(prodData)
             .filter(item => {
                 if (+item[0] === +prodId) {
@@ -23,8 +25,7 @@ function addToCart(ref) {
             }, {})
         newCart = [prod, ...Cart]
     } else {
-        console.log('olditem')
-        const index = Cart.indexOf(itemExits)
+
         newCart = [...Cart]
         newCart.forEach(item => {
             if (+item.prodId === +prodId) {
@@ -35,17 +36,7 @@ function addToCart(ref) {
     localStorage.setItem('cart', JSON.stringify(newCart))
 
     // updating cart items value 
-    document.querySelectorAll('#cart .cart-item').forEach(item => {
-        item.innerText = newCart.length
-    })
-    document.querySelectorAll('#cart .cart-price').forEach(item => {
-        item.innerText = newCart
-            .map(item => +item.price * item.quantity)
-            .reduce((sum, item) => {
-                return item + sum
-            }, 0)
-    })
-
+    updateCartvalue(newCart)
     createAddedProductCard(newCart)
 
 }
@@ -59,6 +50,7 @@ function removeItem(ref) {
     })
     console.log(newCart)
     localStorage.setItem('cart', JSON.stringify(newCart))
+    updateCartvalue(newCart)
     ref.parentNode.parentNode.removeChild(ref.parentNode)
 }
 
@@ -68,17 +60,17 @@ function createAddedProductCard(prodArray) {
     prodArray.forEach(item => {
         const prodLayout = `
         <div class="added-prod">
-                    <div class="edit-qty">
-                        <button class="add"><i class='bx bx-plus' ></i></button>
+                    <div class="edit-qty" data-prodid=${item.prodId}>
+                        <button class="add"  onclick="itemIncDec(this,'add')"><i class='bx bx-plus' ></i></button>
                         <span>${item.quantity}</span>
-                        <button class="sub"><i class='bx bx-minus' ></i></button>
+                        <button class="sub"onclick="itemIncDec(this,'sub')"><i class='bx bx-minus' ></i></button>
                     </div>
                     <img src="images/coupen/Ash.png" alt="">
                     <div class="prod-detail">
                         <div class="prod-name">${item.product_name}</div>
                         <div class="item-price"><i class="bx bx-rupee"></i>${item.price}</div>
                     </div>
-                    <div class="total"><i class="bx bx-rupee"></i><span>${item.price*item.quantity}</span></div>
+                    <div class="total"><i class="bx bx-rupee"></i><span id="prod-total">${item.price*item.quantity}</span></div>
                     <div class="remove" data-prodid=${item.prodId} onclick="removeItem(this)"><i class='bx bx-trash'></i></div>
                 </div>
     `
@@ -88,4 +80,42 @@ function createAddedProductCard(prodArray) {
     })
 
 
+}
+
+
+// cart helper function 
+
+function updateCartvalue(newCart) {
+    document.querySelectorAll('#cart .cart-item').forEach(item => {
+        item.innerText = newCart.length
+    })
+    document.querySelectorAll('#cart .cart-price').forEach(item => {
+        item.innerText = newCart
+            .map(item => +item.price * item.quantity)
+            .reduce((sum, item) => {
+                return item + sum
+            }, 0)
+    })
+}
+
+function itemIncDec(ref, type) {
+    const prodid = ref.parentNode.dataset.prodid
+    const oldCart = JSON.parse(localStorage.getItem('cart'))
+    const Item = oldCart.find(item => {
+        return item.prodId === prodid;
+    })
+    if (type.toUpperCase() === 'ADD') {
+        Item.quantity += 1;
+    }
+    if (type.toUpperCase() === 'SUB') {
+        Item.quantity -= 1
+        console.log(prodid);
+        console.log(Item)
+    }
+    const index = oldCart.indexOf(Item)
+    const newCart = Object.assign([],oldCart,{index:Item})
+    ref.parentNode.children[1].innerText = Item.quantity
+    ref.parentNode.parentNode.children[3].children[1].innerText = Item.quantity*Item.price
+    localStorage.setItem('cart',JSON.stringify(newCart))
+    updateCartvalue(newCart)
 }
