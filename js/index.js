@@ -22,6 +22,10 @@ $(document).ready(function() {
     isSignedIn()
 })
 
+window.onload = ()=>{
+    fetchData('beds')
+}
+
 const formError = {
     email: false,
     password: false,
