@@ -65,7 +65,7 @@ function createAddedProductCard(prodArray) {
                         <span>${item.quantity}</span>
                         <button class="sub"onclick="itemIncDec(this,'sub')"><i class='bx bx-minus' ></i></button>
                     </div>
-                    <img src="images/coupen/Ash.png" alt="">
+                    <img src=${item.image} alt="${item.product_name}">
                     <div class="prod-detail">
                         <div class="prod-name">${item.product_name}</div>
                         <div class="item-price"><i class="bx bx-rupee"></i>${item.price}</div>

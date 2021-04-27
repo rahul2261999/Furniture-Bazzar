@@ -7,6 +7,7 @@
     <title>
         Furniture Bazzar
     </title>
+
     <link href="images/icons/tabbar.png">
     <link rel="stylesheet" href="css/index.css">
     <!-- fonts -->
@@ -43,7 +44,7 @@
         <!-- nov list -->
         <div class="nav-list flex">
             <div class="item">
-                <a href="#">Home</a>
+                <a href="#banner">Home</a>
             </div>
             <div class="item">
                 <a href="#allProducts">Store</a>
@@ -119,7 +120,7 @@
         </div>
     </div>
     <!-- banner and search bar container -->
-    <div class="banner">
+    <div class="banner" id="banner">
         <h1 class="mb-4">Exclusive furniture on cheap price</h1>
         <p class="mb-5">Make your house a home with our wide collection of beautiful furniture</p>
         <!-- unersal search bar -->
@@ -230,7 +231,7 @@
             </div>
             <!-- cart footer -->
             <div class="cart-footer">
-                <div class="checkout">
+                <div class="checkout" onclick="checkout()">
                     <div>Checkout</div>
                     <div id="total-price"><i class='bx bx-rupee'></i> <span class="cart-price">0</span></div>
                 </div>
@@ -257,6 +258,7 @@
         </script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="js/cart.js"></script>
+        <script type="text/javascript" src="js/checkout.js"></script>
 </body>
 
 </html>

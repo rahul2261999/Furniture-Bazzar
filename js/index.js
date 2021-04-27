@@ -182,6 +182,8 @@ function Signout() {
     localStorage.clear();
     isSignedIn()
     alertMsg('User Signout Successfully', 'success')
+    window.location.reload()
+
 }
 
 
@@ -213,7 +215,7 @@ function createCard(res) {
                 dataNode = `
              <div class="item-card">
                     <div class="main-body">
-                        <img src="./images/coupen/Ash.png" alt=${res[data].product_name}>
+                        <img src=${res[data].image} alt=${res[data].product_name}>
                         <div class="card-data">
                             <div class="product-name">${res[data].product_name}</div>
                             <div class="product-price"><i class='bx bx-rupee'></i> ${res[data].price}</div>
