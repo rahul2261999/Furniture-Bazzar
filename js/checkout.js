@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 function checkout() {
     if (isAuthenticated() && isAuthenticated().idToken) {
-        return window.location.assign(`${window.location.href}checkout.html`)
+        return window.location.replace('checkout.html')
     }
     alert("Please Sign In first")
 }
