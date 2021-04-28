@@ -69,7 +69,7 @@ input[type=number] {
 }
 
 .details .details-body .group-item {
-    width: 300px;
+    width: 230px;
     display: flex;
     position: relative;
     flex-direction: column;
@@ -97,6 +97,7 @@ input[type=number] {
     margin-bottom: 10px;
     background: #fde9ff;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 label.active {
@@ -116,6 +117,9 @@ label.active {
 .details .details-body label span:last-child {
     font-size: 14px;
     font-family: cursive;
+    white-space: break-spaces;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /*order button*/
@@ -129,23 +133,26 @@ label.active {
 
 /*add modal styles*/
 
-#addAddress .header,#addContact .header{
-	padding: 25px 20px
-}
-#addAddress .modal-body,
-#addContact .modal-body{
-	padding: 0 25px
+#addAddress .header,
+#addContact .header {
+    padding: 25px 20px
 }
 
-#addAddress form,#addContact form{
-	display: flex;
-	flex-direction: column;
+#addAddress .modal-body,
+#addContact .modal-body {
+    padding: 0 25px
+}
+
+#addAddress form,
+#addContact form {
+    display: flex;
+    flex-direction: column;
 }
 
 #addAddress form>input,
 #addAddress form>textarea,
 #addContact form>input,
-button{
+button {
     margin: 0px 0 25px 0;
     padding: 5px 10px;
     font-size: 14px;
@@ -156,4 +163,27 @@ button{
 
 .cart-details {
     width: 300px;
+    flex-shrink: 0;
+    margin-left: 40px;
+    padding: 0 15px;
+}
+
+.order h6 {
+    text-align: center;
+}
+
+.order>div {
+    display: flex;
+    align-items: center;
+    padding: 2px 0;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.order>div>span:first-child {
+    flex-grow: 1
+}
+
+.bold {
+    font-family: 'Lato', 'sans-serif';
 }

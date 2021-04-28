@@ -217,7 +217,7 @@ function createCard(res) {
                     <div class="main-body">
                         <img src=${res[data].image} alt=${res[data].product_name}>
                         <div class="card-data">
-                            <div class="product-name">${res[data].product_name}</div>
+                            <div class="product-name"  data-bs-toggle="tooltip" data-bs-placement="top" title="${res[data].product_name}" >${res[data].product_name}</div>
                             <div class="product-price"><i class='bx bx-rupee'></i> ${res[data].price}</div>
                             <div class="btn add-cart" data-prodid=${res[data].prodId} onclick="addToCart(this)"><i class="bx bx-shopping-bag"></i> Cart</div>
                         </div>

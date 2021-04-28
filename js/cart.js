@@ -48,7 +48,6 @@ function removeItem(ref) {
     const newCart = cart.filter(item => {
         return +item.prodId !== +prodId
     })
-    console.log(newCart)
     localStorage.setItem('cart', JSON.stringify(newCart))
     updateCartvalue(newCart)
     ref.parentNode.parentNode.removeChild(ref.parentNode)
@@ -109,8 +108,6 @@ function itemIncDec(ref, type) {
     }
     if (type.toUpperCase() === 'SUB') {
         Item.quantity -= 1
-        console.log(prodid);
-        console.log(Item)
     }
     const index = oldCart.indexOf(Item)
     const newCart = Object.assign([],oldCart,{index:Item})

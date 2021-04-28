@@ -117,7 +117,7 @@
     </div>
     <!-- checkout Layout start -->
     <div class="container pt-5">
-        <form id="details">
+        <form id="details" onsubmit="confirmOrder(this)">
             <div class="checkout-container">
                 <div class="details">
                     <div class="personal-details">
@@ -128,7 +128,7 @@
                         <div class="details-body">
                             <div class="group-item">
                                 <label for="name">Name</label>
-                                <input type="text" id="name" placeholder="Enter your full name" name="name" required="">
+                                <input type="text" id="name" placeholder="Enter your full name" name="name" required>
                             </div>
                             <div class="group-item">
                                 <label for="email">E-mail</label>
@@ -145,15 +145,26 @@
                             </div>
                         </div>
                         <div class="details-body">
-                            <label class="active" for="address1" onchange="addActive(this)">
-                                <input type="radio" id="address1" name="address" value="Home|134-A Near Sheetla Mata Mandir, Ring Road, Raipur Rani" checked>
+                            <label 
+                            class="active" 
+                            for="address1" 
+                            onchange="addActive(this)"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title="#458, Ocean View,Bandra,Mumbai,10484">
+                                <input type="radio" id="address1" name="address" value="Home|#458, Ocean View,Bandra,Mumbai,10484" checked>
                                 <span>Home</span>
-                                <span class="text-muted">134-A Near Sheetla Mata Mandir, Ring Road, Raipur Rani</span>
+                                <span class="text-muted">#458, Ocean View,Bandra,Mumbai,10484</span>
                             </label>
-                            <label for="address2" onchange="addActive(this)">
-                                <input type="radio" id="address2" name="address" value="Home|134-A Near Sheetla Mata Mandir, Ring Road, Raipur Rani">
+                            <label for="address2"
+                            onchange="addActive(this)"
+                            data-bs-toggle="tooltip"
+                            data-bs-placement="top"
+                            title="134-A,Test Street,Chandigarh,100245"
+                            >
+                                <input type="radio" id="address2" name="address" value="Home|134-A,Test Street,Chandigarh,100245">
                                 <span>Home</span>
-                                <span class="text-muted">134-A Near Sheetla Mata Mandir, Ring Road, Raipur Rani</span>
+                                <span class="text-muted">134-A,Test Street,Chandigarh,100245</span>
                             </label>
                         </div>
                     </div>
@@ -173,7 +184,9 @@
                     <button class="checkBtn">Proceed to Checkout</button>
                 </div>
                 <div class="cart-details">
-                    <h1>hello</h1>
+                    <div class="order">
+                        <h6>Your Order</h6>
+                    </div>
                 </div>
             </div>
         </form>
