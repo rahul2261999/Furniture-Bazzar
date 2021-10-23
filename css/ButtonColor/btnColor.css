@@ -1,7 +1,11 @@
+/* Main Button */
 .btnMain{
 	background-color:#8e75bd;
 	color: white;
 }
+
+
+/* Main Button Hover */
 .btnMain:hover{
 	background-color: #594284;
 	color: white;
